@@ -1,0 +1,6 @@
+NAME test
+SUPER
+STRING "text editor"
+ENTER
+WAIT 50
+STRING "test"

@@ -1,4 +1,6 @@
+import os
 from app import app
+
 
 #Basic route. Used to test if server is running and responding to requests
 @app.route('/')
@@ -9,11 +11,10 @@ def index():
 # <duckey_name> corresponds to the name each ducky client has. This allows you 
 # to have different instructions to 
 # different duckys. 
-@app.route('/<duckey_name>', methods = ['GET'])
+@app.route('/download/<duckey_name>', methods = ['GET'])
 def filePage(duckey_name):
-    return '''
-        <html>
-        <h1>''' + duckey_name + '''</h1>
-    
-    </html>
-    '''
+    path = os.getcwd() +"/files/" + duckey_name
+    print(path)
+    with open(path, "r") as file:
+        data = file.read()
+        return (data, 200)
