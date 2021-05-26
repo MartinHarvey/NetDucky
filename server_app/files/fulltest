@@ -1,0 +1,6 @@
+WIN
+STRING notepad
+ENTER
+WAIT 1
+STRING testtestetstetststststststs
+CTRL s
