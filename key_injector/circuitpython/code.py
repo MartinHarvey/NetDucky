@@ -57,10 +57,9 @@ for line in instructions:
     elif line[:5] == "ENTER":
         keyboard.press(Keycode.ENTER)
         keyboard.release_all()
-        time.sleep(0.5)
     elif line[:4] == "CTRL":
         other_key = line[5:]
-        keyboard.press(CTRL)
+        keyboard.press()
         keyboard_layout.write(other_key)
         keyboard_layout.release_all()
     elif line[:4] == "WAIT":
