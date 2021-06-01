@@ -4,6 +4,8 @@ from secrets import secrets
 import board
 import busio
 import time
+import simpleio
+import adafruit_rgbled
 from digitalio import DigitalInOut
 #Networking/ESP32 related libraries
 import adafruit_requests as requests
@@ -14,6 +16,13 @@ import usb_hid
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 from adafruit_hid.keycode import Keycode
+
+#Set up the RGB LED on the wireless kit
+RED_LED = board.GP25
+GREEN_LED = board.GP26
+BLUE_LED = board.GP27
+led = adafruit_rgbled.RGBLED(RED_LED, BLUE_LED, GREEN_LED)
+led.color = (255, 0, 0)
 
 #Set pins on wireless kit relating to ESP32 chip.
 esp32_cs = DigitalInOut(board.GP7)
@@ -59,7 +68,8 @@ for line in instructions:
         keyboard.release_all()
     elif line[:4] == "CTRL":
         other_key = line[5:]
-        keyboard.press()
+        keyboard.press(Keycode.CONTROL)
+
         keyboard_layout.write(other_key)
         keyboard_layout.release_all()
     elif line[:4] == "WAIT":

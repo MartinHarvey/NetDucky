@@ -17,8 +17,11 @@ Instruction files are made up of the following statements:
 * WIN :- Presses the Windows/Super/Command key
 * ENTER :- Sends the Enter key. 
 * WAIT [interval] :- Waits a set amount of time. Interval must be a float i.e. WAIT 0.5 will wait 0.5 seconds
+* CTRL [keys] :- Allows you to send a control-key combination. For example, CTRL+S
 
-Abilty to send CTRL-Key combinations (CTRL+S, CTRL+R) is being worked on. 
+Other features are in the works, but the current functionality is sufficient to build up instruction scripts that can carry out a great deal of work
 
+### Disclaimer
+Do not, under any circumstances, use this software to commit a crime. Only use the software on devices and networks you have permission to. 
 
 
