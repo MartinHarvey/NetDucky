@@ -17,13 +17,6 @@ from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 from adafruit_hid.keycode import Keycode
 
-#Set up the RGB LED on the wireless kit
-RED_LED = board.GP25
-GREEN_LED = board.GP26
-BLUE_LED = board.GP27
-led = adafruit_rgbled.RGBLED(RED_LED, BLUE_LED, GREEN_LED)
-led.color = (255, 0, 0)
-
 #Set pins on wireless kit relating to ESP32 chip.
 esp32_cs = DigitalInOut(board.GP7)
 esp32_ready = DigitalInOut(board.GP10)
@@ -36,12 +29,22 @@ spi = busio.SPI(board.GP18, board.GP19, board.GP16)
 esp = adafruit_esp32spi.ESP_SPIcontrol(spi, esp32_cs, esp32_ready, esp32_reset)
 requests.set_socket(socket, esp)
 
+#set up RGB led to be Red
+esp.set_analog_write(25, 0)
+esp.set_analog_write(26, 1)
+esp.set_analog_write(27, 1)
+
 #Connect to AP described in secrets
 while not esp.is_connected:
     try:
         esp.connect_AP(secrets['SSID'], secrets['password'])
     except RuntimeError:
         continue
+
+#set up RGB led to be Green, now connection to network has been made
+esp.set_analog_write(25, 0)
+esp.set_analog_write(26, 0)
+esp.set_analog_write(27, 1)
 
 #Print SSID of network and assigned address
 print(f"Connected to {secrets['SSID']}. IP Addr is {esp.pretty_ip(esp.ip_address)}")
@@ -69,9 +72,13 @@ for line in instructions:
     elif line[:4] == "CTRL":
         other_key = line[5:]
         keyboard.press(Keycode.CONTROL)
-
         keyboard_layout.write(other_key)
         keyboard_layout.release_all()
     elif line[:4] == "WAIT":
         time.sleep(float(line[4:]))
+    
+#set up RGB led to be Blue, now that all instructions have been carried out
+esp.set_analog_write(25, 1)
+esp.set_analog_write(26, 1)
+esp.set_analog_write(27, 0)
         
